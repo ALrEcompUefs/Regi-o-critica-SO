@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+
+#define capacidade 10	// capacidade máxima da geladeira
+
+int geladeira =3;	// começa de 3 
+//
+int turno=0;	//varievel que indica turno do processo da vez
+int ocupado=0; 	// indica que região critica esta em acesso
+
+void * Consumidor (void *arg);		// prototipo para função de consumidor	
+void * Observador (void *arg);		// prototipo para função de observador
+void compraLeite(int id);
+void main(){
+
+	pthread_t consumidor, pai, mae, tio;	// cria varivéis para as threads
+	
+	int id1=1,id2=2,id3=3;		// ids dos observadores
+	
+	//cria consumidor
+	pthread_create(&consumidor, NULL, Consumidor, NULL);
+	// cria observadores
+
+	pthread_create(&pai, NULL, Observador, ((void*)id1));
+	pthread_create(&mae, NULL, Observador, ((void*)id2));
+	pthread_create(&tio, NULL, Observador, (void*)id3);
+	
+	/* executa até que o programa seja encerrado*/
+	for(;;){
+		
+		printf("Estado atual geladeira[%d]\n",geladeira);	//exibe estado atual da geladeira
+		
+		if(geladeira > capacidade)									// se estorou o limite
+			printf("violacao da capacidade Maxima da geladeira\n");   // avisa da violação
+		sleep(1); // atualiza em 1 segundo
+		
+	}
+}
+/*
+|	Consumidor dorme por 3 segundos e depois consome 1 litro de leite da geladeira
+*/
+void * Consumidor (void *arg) {
+	while(1){			// executa sempre
+		sleep(3);		// dorme por 3 segundos
+		geladeira--;	// consome 1 litro de leite
+		printf("1 - Leite consumido\n");	
+	}
+}
+
+/*
+|	Observador está sempre ativo e verifica se a geladeira não está com capacidade maxima
+|	Quando a geladeira não estiver com capacidade maxima o Observador compra 1 litro de leite
+*/
+void * Observador (void *arg) {
+	int id =(int) arg;	// id do observador
+	
+	while(1){
+		if(ocupado == 0){
+			turno =id;
+			ocupado=1;
+		}	
+		if(turno == id)
+			compraLeite(id);
+		turno=0;
+		ocupado=0;
+				
+	}
+}
+
+void compraLeite(int id){
+	if (geladeira < capacidade){	// se não estiver com capacidade maxima
+	ocupado =1;
+	geladeira++;				// compra leite 
+	if(id == 1)
+		printf(" Pai Comprou Leite\n");
+	else if(id ==2)
+		printf(" Mae Comprou Leite\n");
+	else
+		printf(" Tio Comprou Leite\n");
+	}
+}
