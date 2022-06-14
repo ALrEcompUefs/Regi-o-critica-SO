@@ -63,15 +63,15 @@ void * Observador (void *arg) {
 		}	
 		if(turno == id)
 			compraLeite(id);
-		turno=0;
-		ocupado=0;
-				
+		if(turno == id){
+			turno=0;
+		}
+		ocupado=0;			
 	}
 }
 
 void compraLeite(int id){
 	if (geladeira < capacidade){	// se não estiver com capacidade maxima
-	ocupado =1;
 	geladeira++;				// compra leite 
 	if(id == 1)
 		printf(" Pai Comprou Leite\n");
