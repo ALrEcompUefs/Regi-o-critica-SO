@@ -14,4 +14,7 @@
 <p>
   
   <p>O Programa threadsMonitoradas implementa um tentiva de sincronizar as threadas através do controle de acesso a região
-    critica, no nosso caso a varievel global geladeira, o controle é feito usando as variavéis <b>ocupado</b> e <b>turno</b></p>
+    critica, no nosso caso a varievel global geladeira, o controle é feito usando as variavéis <b>ocupado</b> e <b>turno</b>.</p>
+ <p>ocupado indica que uma thread já está acessando a região critica assim nenhuma outra pode acessar a região critica, turno indica
+    qual é a thread com a vez para acesso da região critica é usada para evitar que outras threads liberem o acesso a região sem estarem em sua vez.</p>
+<p>Com esse controle implementado o número de violações da capcidade diminuiram mas não foram corrigidos assim é nescessario refinar a técnica </p>
