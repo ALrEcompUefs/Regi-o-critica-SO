@@ -9,4 +9,9 @@
 <p>O problema consiste que em dado momento os observadores vão comprar leite demais e o a capacidade maxima é
   violada, isso se dá pela falta de sincronia entre as threads dos observadores
 </p>
-<
+<p>O programa threadsSO.c implementa o problema sem a sincronização das threads e como esperado em dado momento
+  ocorre a violação da capacidade maxima
+<p>
+  
+  <p>O Programa threadsMonitoradas implementa um tentiva de sincronizar as threadas através do controle de acesso a região
+    critica, no nosso caso a varievel global geladeira, o controle é feito usando as variavéis <b>ocupado</b> e <b>turno</b></p>
